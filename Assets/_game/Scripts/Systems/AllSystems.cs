@@ -15,6 +15,29 @@ public class AllSystems : MonoBehaviour {
 
     private void Update()
     {
+
+        // Guiding Movement System
+        if (GetComponent<CMoving>() && GetComponent<CGuiding>() && GetComponent<Transform>())
+        {
+            // Refer to the relevant components
+            CMoving cMoving = GetComponent<CMoving>();
+            CGuiding cGuiding = GetComponent<CGuiding>();
+            
+            // Get the guiding hand entity
+            GameObject guidingHand = cGuiding.guidingHand;
+
+            // Method 1: Guiding relative to position of hand at start of guide.
+            // Get the relative change in position
+            Vector3 deltaPosition = guidingHand.transform.position - guidingHand.GetComponent<CGuiding_Hand>().startPosition;
+
+            Vector3 guidingVector = new Vector3(
+                Mathf.Max(cGuiding.guidingVelocityNudge, cMoving.velocity.x) * cGuiding.guidingVelocityMultiplier * Mathf.Clamp(deltaPosition.x, -guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan, guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan),
+                Mathf.Max(cGuiding.guidingVelocityNudge, cMoving.velocity.y) * cGuiding.guidingVelocityMultiplier * Mathf.Clamp(deltaPosition.y, -guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan, guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan),
+                Mathf.Max(cGuiding.guidingVelocityNudge, cMoving.velocity.z) * cGuiding.guidingVelocityMultiplier * Mathf.Clamp(deltaPosition.z, -guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan, guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan)
+                );
+            cMoving.velocity = guidingVector;
+        }
+        
         // Spawning System
         if (GetComponent<CSpawning>() && GetComponent<Transform>())
         {
@@ -71,6 +94,7 @@ public class AllSystems : MonoBehaviour {
 
     private void FixedUpdate()
     {
+
         // Seeking System
         // This may or may not work. I haven't tested it with moving objects.
         if (GetComponent<CSeeking>() && GetComponent<Transform>())
@@ -93,8 +117,13 @@ public class AllSystems : MonoBehaviour {
             CMoving cMoving = GetComponent<CMoving>();
             Transform cTransform = GetComponent<Transform>();
 
-            if (cMoving.velocity.magnitude != 0)
+            float velMagnitude = cMoving.velocity.magnitude;
+            if (velMagnitude != 0)
             {
+                if (velMagnitude > cMoving.maxSpeed)
+                {
+                    cMoving.velocity = Vector3.ClampMagnitude(cMoving.velocity, cMoving.maxSpeed);
+                }
                 cTransform.position += cMoving.velocity;
             }
         }
