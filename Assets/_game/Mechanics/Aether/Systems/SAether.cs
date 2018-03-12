@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AllSystems : MonoBehaviour {
+public class SAether : MonoBehaviour {
 
     /*
      * This is a super hacky version of ECS systems.
@@ -26,16 +26,19 @@ public class AllSystems : MonoBehaviour {
             // Get the guiding hand entity
             GameObject guidingHand = cGuiding.guidingHand;
 
-            // Method 1: Guiding relative to position of hand at start of guide.
-            // Get the relative change in position
-            Vector3 deltaPosition = guidingHand.transform.position - guidingHand.GetComponent<CGuiding_Hand>().startPosition;
+            if (guidingHand)
+            {
+                // Method 1: Guiding relative to position of hand at start of guide.
+                // Get the relative change in position
+                Vector3 deltaPosition = guidingHand.transform.position - guidingHand.GetComponent<CGuiding_Hand>().startPosition;
 
-            Vector3 guidingVector = new Vector3(
-                Mathf.Max(cGuiding.guidingVelocityNudge, cMoving.velocity.x) * cGuiding.guidingVelocityMultiplier * Mathf.Clamp(deltaPosition.x, -guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan, guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan),
-                Mathf.Max(cGuiding.guidingVelocityNudge, cMoving.velocity.y) * cGuiding.guidingVelocityMultiplier * Mathf.Clamp(deltaPosition.y, -guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan, guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan),
-                Mathf.Max(cGuiding.guidingVelocityNudge, cMoving.velocity.z) * cGuiding.guidingVelocityMultiplier * Mathf.Clamp(deltaPosition.z, -guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan, guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan)
-                );
-            cMoving.velocity = guidingVector;
+                Vector3 guidingVector = new Vector3(
+                    Mathf.Max(cGuiding.guidingVelocityNudge, cMoving.velocity.x) * cGuiding.guidingVelocityMultiplier * Mathf.Clamp(deltaPosition.x, -guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan, guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan),
+                    Mathf.Max(cGuiding.guidingVelocityNudge, cMoving.velocity.y) * cGuiding.guidingVelocityMultiplier * Mathf.Clamp(deltaPosition.y, -guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan, guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan),
+                    Mathf.Max(cGuiding.guidingVelocityNudge, cMoving.velocity.z) * cGuiding.guidingVelocityMultiplier * Mathf.Clamp(deltaPosition.z, -guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan, guidingHand.GetComponent<CGuiding_Hand>().maxGuidingSpan)
+                    );
+                cMoving.velocity = guidingVector;
+            }
         }
         
         // Spawning System

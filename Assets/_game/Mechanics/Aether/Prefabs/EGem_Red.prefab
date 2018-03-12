@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4750567924739990}
   m_Layer: 0
-  m_Name: Gem
+  m_Name: EGem_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
