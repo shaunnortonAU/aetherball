@@ -8,10 +8,16 @@ public class ReachMode : IComponent
     public float projectedReachRange;
 
     public GameObject projectedHandPrefab;
+    public GameObject projectedHandObject;
 
     public GameObject closePrefab;
     public GameObject actualReachPrefab;
     public GameObject projectedReachPrefab;
 
     public bool showRangePrefabs;
+
+    public bool isInProjectedState;
+    public float currentDistance;
+
+    public GameObject shoulderObject;
 }

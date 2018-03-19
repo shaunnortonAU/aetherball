@@ -4,8 +4,7 @@ public class ReachModeSystem : ISystem
 {
     public ReachMode cReachMode;
     public InputHand cInputHand;
-
-    private PlayerInputList cPlayerInputList;
+    
     private GameObject closePrefab;
     private GameObject actualReachPrefab;
     private GameObject projectedReachPrefab;
@@ -13,55 +12,65 @@ public class ReachModeSystem : ISystem
     private GameObject projHand;
 
     Vector3 projDestination;
-
-    //Vector3 followerVelocity;
+    
     Vector3 pastFollowerPosition, pastTargetPosition;
 
     private void Start()
     {
         projHand = Instantiate(cReachMode.projectedHandPrefab);
-
-        cPlayerInputList = cInputHand.player.GetComponent<PlayerInputList>();
+        cReachMode.projectedHandObject = projHand;
+        projHand.GetComponent<ReachSelector>().belongsToReachObject = gameObject;
 
         if (cReachMode.showRangePrefabs)
         {
-            closePrefab = Instantiate(cReachMode.closePrefab, gameObject.transform);
-            actualReachPrefab = Instantiate(cReachMode.actualReachPrefab, gameObject.transform);
-            projectedReachPrefab = Instantiate(cReachMode.projectedReachPrefab, gameObject.transform);
+            // closePrefab = Instantiate(cReachMode.closePrefab, gameObject.transform);
+            // actualReachPrefab = Instantiate(cReachMode.actualReachPrefab, gameObject.transform);
+            // projectedReachPrefab = Instantiate(cReachMode.projectedReachPrefab, gameObject.transform);
         }
 
     }
     private void Update()
     {
-        //Get positions from player parts
-        Vector3 playerMiddle = cPlayerInputList.gameObject.transform.position + (cPlayerInputList.head.transform.position - cPlayerInputList.feet.transform.position) / 2;
+        
 
         if (cReachMode.showRangePrefabs)
         {
+            /*
             // Set the range vis prefab sizes
             closePrefab.transform.localScale = new Vector3(2 * cReachMode.closeRange, 2 * cReachMode.closeRange, 2 * cReachMode.closeRange);
             actualReachPrefab.transform.localScale = new Vector3(2 * cReachMode.actualReachRange, 2 * cReachMode.actualReachRange, 2 * cReachMode.actualReachRange);
             projectedReachPrefab.transform.localScale = new Vector3(2 * cReachMode.projectedReachRange, 2 * cReachMode.projectedReachRange, 2 * cReachMode.projectedReachRange);
             
-            closePrefab.transform.position = playerMiddle;
-            actualReachPrefab.transform.position = playerMiddle;
-            projectedReachPrefab.transform.position = playerMiddle;
+            closePrefab.transform.position = shoulderPosition;
+            actualReachPrefab.transform.position = shoulderPosition;
+            projectedReachPrefab.transform.position = shoulderPosition;
+            */
+
+
+            // closePrefab.transform.localScale = new Vector3(0.1f , 0.1f, 0.1f);
+            // closePrefab.transform.position = shoulderPosition;
         }
         
-        Vector3 handDisplacement = cInputHand.gameObject.transform.position - playerMiddle;
+        Vector3 handDisplacement = cInputHand.gameObject.transform.position - cReachMode.shoulderObject.transform.position;
 
-        double handMag = handDisplacement.magnitude;
+        float handMag = handDisplacement.magnitude;
 
-        if (handMag > cReachMode.closeRange && handMag < cReachMode.actualReachRange)
+        if (handMag > cReachMode.closeRange)
         {
+            // Set the Reach Mode state
+            cReachMode.isInProjectedState = true;
+
             // Show the proj hand object
             projHand.SetActive(true);
 
             // Calculate the projected magnitude based on actual hand magnitude in the close>actual range.
-            double projMag = MapRange(cReachMode.closeRange, cReachMode.actualReachRange, cReachMode.actualReachRange, cReachMode.projectedReachRange, handMag);
+            float projMag = Mathf.Min(cReachMode.projectedReachRange, MapRange(cReachMode.closeRange, cReachMode.actualReachRange, cReachMode.actualReachRange, cReachMode.projectedReachRange, handMag));
 
             // Set a destination vector for where the projhand should be
-            projDestination = playerMiddle + handDisplacement * (float)projMag;
+            projDestination = cReachMode.shoulderObject.transform.position + handDisplacement * projMag;
+
+            // Give the Reach Mode the projection's magnitude
+            cReachMode.currentDistance = projMag;
 
             // Slerp the projhand to the destination
             projHand.transform.position = SuperSmoothLerp(pastFollowerPosition, pastTargetPosition, projDestination, Time.deltaTime, 20f);
@@ -73,6 +82,8 @@ public class ReachModeSystem : ISystem
         }
         else
         {
+            // Turn off stuff
+            cReachMode.isInProjectedState = false;
             projHand.SetActive(false);
             projHand.transform.position = cInputHand.gameObject.transform.position;
             pastFollowerPosition = cInputHand.gameObject.transform.position;
@@ -82,7 +93,7 @@ public class ReachModeSystem : ISystem
 
     // Method forre-mapping a value to another range
     // From https://rosettacode.org/wiki/Map_range#C.23
-    double MapRange(double a1, double a2, double b1, double b2, double s)
+    float MapRange(float a1, float a2, float b1, float b2, float s)
     {
         return b1 + (s - a1) * (b2 - b1) / (a2 - a1);
     }

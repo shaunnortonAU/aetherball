@@ -2,6 +2,7 @@
 
 public class ReachSelector : IComponent
 {
+    public GameObject belongsToReachObject;
     public IEffect collideEffect;
-    public bool affectThis;
+    public GameObject effectObjectOverride;
 }

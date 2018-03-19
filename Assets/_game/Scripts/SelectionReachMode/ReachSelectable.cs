@@ -2,8 +2,6 @@
 
 public class ReachSelectable : IComponent
 {
-    private void OnTriggerEnter(Collider other)
-    {
-        
-    }
+    // Optional field to send collision info with eg a parent object.
+    public GameObject effectObjectOverride;
 }

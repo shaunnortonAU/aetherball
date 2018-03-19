@@ -11,9 +11,27 @@ public class ReachSelection : ISystem
     {
         for(int i = 0; i < cCollidable.collidedThisFrame.Count; i++)
         {
-            if (cCollidable.collidedThisFrame[i].GetComponent<ReachSelectable>())
+            ReachSelectable cReachSelectable = cCollidable.collidedThisFrame[i].GetComponent<ReachSelectable>();
+            if (cReachSelectable)
             {
-                objectToAffect = (cReachSelector.affectThis) ? gameObject : cCollidable.collidedThisFrame[i];
+                if (cReachSelector.effectObjectOverride)
+                {
+                    // Check this object for an override.
+                    objectToAffect = cReachSelector.effectObjectOverride;
+                }
+                else
+                {
+                    // Check the other object for an override.
+                    if(cReachSelectable.effectObjectOverride)
+                    {
+                        objectToAffect = cReachSelectable.effectObjectOverride;
+                    }
+                    else
+                    {
+                        objectToAffect = cCollidable.collidedThisFrame[i];
+                    }
+                }
+
                 cReachSelector.collideEffect.DoEffect(objectToAffect);
             }
         }
