@@ -23,7 +23,8 @@ public class NodeParticleAligning : ISystem
 
     private void AlignParticle()
     {
-        cNodeParticleAligned.gameObject.transform.rotation = Quaternion.LookRotation(cBelongsToNodeVector.forceVector);
+        if(cBelongsToNodeVector.forceVector != Vector3.zero)
+            cNodeParticleAligned.gameObject.transform.rotation = Quaternion.LookRotation(cBelongsToNodeVector.forceVector);
     }
 
 }

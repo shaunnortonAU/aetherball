@@ -4,64 +4,30 @@ public class ReachModeSystem : ISystem
 {
     public ReachMode cReachMode;
     public InputHand cInputHand;
-    
-    private GameObject closePrefab;
-    private GameObject actualReachPrefab;
-    private GameObject projectedReachPrefab;
 
-    private GameObject projHand;
-
-    Vector3 projDestination;
-    
-    Vector3 pastFollowerPosition, pastTargetPosition;
+    private Vector3 projDestination, pastFollowerPosition, pastTargetPosition;
+    private ReachHand cReachHand;
 
     private void Start()
     {
-        projHand = Instantiate(cReachMode.projectedHandPrefab);
-        cReachMode.projectedHandObject = projHand;
-        projHand.GetComponent<ReachSelector>().belongsToReachObject = gameObject;
-
-        if (cReachMode.showRangePrefabs)
-        {
-            // closePrefab = Instantiate(cReachMode.closePrefab, gameObject.transform);
-            // actualReachPrefab = Instantiate(cReachMode.actualReachPrefab, gameObject.transform);
-            // projectedReachPrefab = Instantiate(cReachMode.projectedReachPrefab, gameObject.transform);
-        }
-
+        cReachHand = cReachMode.projectedHandObject.GetComponent<ReachHand>();
     }
+
     private void Update()
     {
-        
-
-        if (cReachMode.showRangePrefabs)
-        {
-            /*
-            // Set the range vis prefab sizes
-            closePrefab.transform.localScale = new Vector3(2 * cReachMode.closeRange, 2 * cReachMode.closeRange, 2 * cReachMode.closeRange);
-            actualReachPrefab.transform.localScale = new Vector3(2 * cReachMode.actualReachRange, 2 * cReachMode.actualReachRange, 2 * cReachMode.actualReachRange);
-            projectedReachPrefab.transform.localScale = new Vector3(2 * cReachMode.projectedReachRange, 2 * cReachMode.projectedReachRange, 2 * cReachMode.projectedReachRange);
-            
-            closePrefab.transform.position = shoulderPosition;
-            actualReachPrefab.transform.position = shoulderPosition;
-            projectedReachPrefab.transform.position = shoulderPosition;
-            */
-
-
-            // closePrefab.transform.localScale = new Vector3(0.1f , 0.1f, 0.1f);
-            // closePrefab.transform.position = shoulderPosition;
-        }
         
         Vector3 handDisplacement = cInputHand.gameObject.transform.position - cReachMode.shoulderObject.transform.position;
 
         float handMag = handDisplacement.magnitude;
 
+        // Scale this up a bit to allow for rounding in the mapped position
         if (handMag > cReachMode.closeRange)
         {
             // Set the Reach Mode state
             cReachMode.isInProjectedState = true;
 
-            // Show the proj hand object
-            projHand.SetActive(true);
+            // Show the model
+            cReachHand.model.SetActive(true);
 
             // Calculate the projected magnitude based on actual hand magnitude in the close>actual range.
             float projMag = Mathf.Min(cReachMode.projectedReachRange, MapRange(cReachMode.closeRange, cReachMode.actualReachRange, cReachMode.actualReachRange, cReachMode.projectedReachRange, handMag));
@@ -73,19 +39,21 @@ public class ReachModeSystem : ISystem
             cReachMode.currentDistance = projMag;
 
             // Slerp the projhand to the destination
-            projHand.transform.position = SuperSmoothLerp(pastFollowerPosition, pastTargetPosition, projDestination, Time.deltaTime, 20f);
+            cReachMode.projectedHandObject.transform.position = SuperSmoothLerp(pastFollowerPosition, pastTargetPosition, projDestination, Time.deltaTime, 20f);
 
             // Save the current positions for the next update slerp
-            pastFollowerPosition = projHand.transform.position;
+            pastFollowerPosition = cReachMode.projectedHandObject.transform.position;
             pastTargetPosition = projDestination;
 
+            // Mirror the real hand's rotation
+            cReachMode.projectedHandObject.transform.rotation = gameObject.transform.rotation;
         }
         else
         {
-            // Turn off stuff
+            // Just hide the renderer, but we'll keep the rest so we don't have to duplicate behaviour on real and proj hands
             cReachMode.isInProjectedState = false;
-            projHand.SetActive(false);
-            projHand.transform.position = cInputHand.gameObject.transform.position;
+            cReachHand.model.SetActive(false);
+            cReachMode.projectedHandObject.transform.position = cInputHand.gameObject.transform.position;
             pastFollowerPosition = cInputHand.gameObject.transform.position;
         }
 

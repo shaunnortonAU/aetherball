@@ -35,9 +35,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4949054140017630}
   - component: {fileID: 65958244233173628}
-  - component: {fileID: 114294050410241672}
-  - component: {fileID: 114037107243348088}
-  - component: {fileID: 114700328498244754}
   m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
@@ -205,42 +202,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114037107243348088
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1861097353168910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27e69b8fe60c63d41a05488b740d1b7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cCollidable: {fileID: 114294050410241672}
---- !u!114 &114294050410241672
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1861097353168910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dc6a06477ce13148b96579267cb7db3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collidedThisFrame: []
---- !u!114 &114700328498244754
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1861097353168910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac859415ba909e144a6ee0df292fc4ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effectObjectOverride: {fileID: 1773121591110116}
 --- !u!198 &198770329735596814
 ParticleSystem:
   m_ObjectHideFlags: 1

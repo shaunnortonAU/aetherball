@@ -2,7 +2,7 @@
 
 public class BallGuidance : ISystem {
 
-    public BallInertia cBallInertia;
+    public Inertia cBallInertia;
     public BallGuided cBallGuided;
 
     void Update ()

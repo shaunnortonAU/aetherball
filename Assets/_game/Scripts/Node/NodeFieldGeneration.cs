@@ -28,7 +28,9 @@ public class NodeFieldGeneration : ISystem
                     cNodeInField.gridCoordinates = newNodePosition;
                     cNodeInField.parentField = gameObject;
 
-                    
+                    NodeVector cNodeVector = newNode.GetComponent<NodeVector>();
+                    cNodeVector.forceVector = new Vector3(Random.Range(0.01f, 0.02f), Random.Range(0.01f, 0.02f), Random.Range(0.01f, 0.02f));
+
                 }
             }
         }

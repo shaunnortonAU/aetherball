@@ -19,8 +19,8 @@ public class BallSpawning : ISystem
             newObject.transform.rotation = transform.rotation;
 
             // Set the velocity
-            BallInertia newObjectInertia = newObject.GetComponent<BallInertia>();
-            if (newObject.GetComponent<BallInertia>())
+            Inertia newObjectInertia = newObject.GetComponent<Inertia>();
+            if (newObject.GetComponent<Inertia>())
             {
                 newObjectInertia.inertia = cBallSpawner.forwardVelocity * transform.forward;
             }

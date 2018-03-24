@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4317985999260720}
   - component: {fileID: 120360169267608378}
   - component: {fileID: 65536827483136920}
+  - component: {fileID: 114521681321401152}
   - component: {fileID: 114965553950076918}
   - component: {fileID: 114117471737190090}
   - component: {fileID: 114133307239379628}
@@ -43,6 +44,7 @@ GameObject:
   - component: {fileID: 4576684512341558}
   - component: {fileID: 198669768545673974}
   - component: {fileID: 114483843050811874}
+  - component: {fileID: 114996093087981802}
   - component: {fileID: 114580945098204058}
   - component: {fileID: 114871644344738174}
   - component: {fileID: 114975007453856630}
@@ -72,7 +74,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4317985999260720
 Transform:
   m_ObjectHideFlags: 1
@@ -80,7 +82,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1103039122009962}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.88, z: 0}
+  m_LocalPosition: {x: 0, y: 1.206, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4480643853003424}
@@ -178,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f105032fdb14ce4da65d3b405d5d104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceVector: {x: 1, y: 1, z: 0}
+  forceVector: {x: 0, y: 0, z: 0}
   maxSqrMagnitude: 1
   additive: 0
   isUpdated: 0
@@ -236,6 +238,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   belongsToNodeObject: {fileID: 1103039122009962}
   cParticleSystem: {fileID: 198669768545673974}
+--- !u!114 &114521681321401152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1103039122009962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc6a06477ce13148b96579267cb7db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collidedThisFrame: []
+  onTriggerStay: 0
 --- !u!114 &114580945098204058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -253,7 +268,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1103039122009962}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7615482a1e51e345b7940a372ec4ba4, type: 3}
   m_Name: 
@@ -300,8 +315,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minParticleSpeed: 0.5
   maxParticleSpeed: 1
-  minParticleSize: 0.02
-  maxParticleSize: 0.06
+  minParticleSize: 0.01
+  maxParticleSize: 0.07
+--- !u!114 &114996093087981802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1680254911252856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e315af199266a49baf5ce746e74974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!120 &120360169267608378
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -462,7 +488,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1917155006
+  randomSeed: -1706541810
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -858,7 +884,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 10
+    maxNumParticles: 1
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -1022,8 +1048,8 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.6
-      minScalar: 0.8
+      scalar: 2.4
+      minScalar: 1.6
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1517,7 +1543,7 @@ ParticleSystem:
     sprites:
     - sprite: {fileID: 0}
   VelocityModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -3133,8 +3159,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0}
-        key1: {r: 1, g: 1, b: 1, a: 0.6313726}
+        key0: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3150,16 +3176,16 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 31226
+        atime1: 65535
         atime2: 65535
         atime3: 0
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
-        m_Mode: 0
+        m_Mode: 1
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

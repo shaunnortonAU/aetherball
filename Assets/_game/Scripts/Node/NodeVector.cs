@@ -6,4 +6,6 @@ public class NodeVector : IComponent
     public float maxSqrMagnitude;
     public bool additive;
     public bool isUpdated;
+
+    // Debugging private void Update() { Debug.Log(forceVector.ToString("F4"));  }
 }

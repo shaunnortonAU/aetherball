@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class ReachSelectorSizeScaling : ISystem
+public class ReachHandSizeScaling : ISystem
 {
-    public ReachSelector cReachSelector;
+    public ReachHand cReachHand;
     public SphereCollider cSphereCollider;
     
     private ReachMode cReachMode;
@@ -10,7 +10,7 @@ public class ReachSelectorSizeScaling : ISystem
     // Use this for initialization
     void Start ()
     {
-        cReachMode = cReachSelector.belongsToReachObject.GetComponent<ReachMode>();
+        cReachMode = cReachHand.belongsToHandObject.GetComponent<ReachMode>();
 	}
 	
 	// Update is called once per frame

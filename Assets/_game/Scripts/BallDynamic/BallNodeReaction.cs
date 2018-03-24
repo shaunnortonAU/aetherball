@@ -3,24 +3,27 @@
 public class BallNodeReaction : ISystem
 {
     public BallNodeReactor cBallNodeReactor;
-    public BallInertia cBallInertia;
+    public Inertia cBallInertia;
     
     private void OnTriggerEnter(Collider collider)
     {
         NodeVector cNodeVector = collider.gameObject.GetComponent<NodeVector>();
 
-        Vector3 newInertia = new Vector3();
-
-        if (cNodeVector.additive)
+        if (cNodeVector)
         {
-            newInertia = cBallInertia.inertia * cBallNodeReactor.inertiaWeight + cNodeVector.forceVector * cBallNodeReactor.nodeWeight;
-        }
+            Vector3 newInertia = new Vector3();
 
-        else
-        {
-            newInertia = cNodeVector.forceVector.normalized * cBallInertia.inertia.magnitude;
-        }
+            if (cNodeVector.additive)
+            {
+                newInertia = cBallInertia.inertia * cBallNodeReactor.inertiaWeight + cNodeVector.forceVector * cBallNodeReactor.nodeWeight;
+            }
 
-        cBallInertia.inertia = Vector3.ClampMagnitude(newInertia, cBallInertia.maxSqrMagVelocity);
+            else
+            {
+                newInertia = cNodeVector.forceVector.normalized * cBallInertia.inertia.magnitude;
+            }
+
+            cBallInertia.inertia = Vector3.ClampMagnitude(newInertia, cBallInertia.maxSqrMagVelocity);
+        }
     }
 }

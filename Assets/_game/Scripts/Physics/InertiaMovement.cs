@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class BallInertiaMovement : ISystem
+public class InertiaMovement : ISystem
 {
-    public BallInertia cInertia;
+    public Inertia cInertia;
     
-    void Update ()
+    void FixedUpdate ()
     {
         cInertia.inertia = Vector3.ClampMagnitude(cInertia.inertia, cInertia.maxSqrMagVelocity);
         transform.position += cInertia.inertia;
